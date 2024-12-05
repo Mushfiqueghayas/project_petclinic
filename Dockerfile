@@ -1,4 +1,4 @@
-# Use an official Maven image to build the application
+i# Use an official Maven image to build the application
 FROM maven:3.8.5-openjdk-17 AS build
 
 # Set the working directory in the container
@@ -25,3 +25,5 @@ EXPOSE 80
 
 # Specify the command to run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
+
+#to test merge and push request
