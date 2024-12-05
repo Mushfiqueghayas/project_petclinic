@@ -1,0 +1,41 @@
+services:
+  myjavaapp:
+    build: .
+    ports:
+     - "8080:8080"
+
+    environment:
+      MYSQL_URL: jdbc:mysql://mysql:3306/petclinic
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DB: petclinic
+      MYSQL_USER: petclinic
+      MYSQL_PASS: petclinic
+      SPRING_PROFILES_ACTIVE: mysql  
+
+    depends_on:
+       mysql:
+         condition: service_healthy
+
+
+    command: mvn clean package -DskipTests
+
+  
+  
+  mysql:
+    image: mysql:9.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_USER=petclinic
+      - MYSQL_PASSWORD=petclinic
+      - MYSQL_DATABASE=petclinic    
+      - MYSQL_ROOT_PASSWORD=petclinic
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+    # interval: 5s          # Check every 30 seconds
+    # timeout: 20s          # Timeout after 20 seconds
+    #retries: 3 
+
