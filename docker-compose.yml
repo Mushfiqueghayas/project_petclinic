@@ -1,0 +1,35 @@
+services:
+  myjavaapp:
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/petclinic
+      - SPRING_DATASOURCE_USERNAME=petclinic
+      - SPRING_DATASOURCE_PASSWORD=petclinic
+      - SPRING_PROFILES_ACTIVE=mysql
+      - MYSQL_HOST=mysql
+      - MYSQL_ROOT_PASSWORD=mushfiqueghayas
+      - MYSQL_DB=petclinic
+
+    command: mvn clean package -DskipTests
+     
+
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:9.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=mushfiqueghayas
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_USER=petclinic
+      - MYSQL_PASSWORD=petclinic
+      - MYSQL_DATABASE=petclinic
+
+
+
